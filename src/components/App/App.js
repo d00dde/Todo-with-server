@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
+import 'materialize-css/dist/css/materialize.min.css';
+
 import Content from '../Content/Content';
 
 export default class extends Component {
@@ -9,12 +11,13 @@ export default class extends Component {
     admin: false
   }
 
-  login = () => {
-    this.setState((state) => {
-        return({
-          logged: !state.logged,
-        })
-      })
+  logIn = (name) => {
+    /*this.server.name = name;
+    fetch*/
+  }
+
+  logOut = () => {
+
   }
 
   render () {
