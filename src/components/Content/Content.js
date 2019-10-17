@@ -16,7 +16,10 @@ export default class extends Component {
   render () {
     return (
       <div className='content'>
-        <TaskList  getData={this.server.getTasks}/>
+        <TaskList  getData = {this.server.getTasks}
+                   addItem = {this.server.addTask}
+                   removeItem = {this.server.removeTask}
+                   editItem = {this.server.editTask} />
       </div>
 
     )

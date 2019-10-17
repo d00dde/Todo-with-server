@@ -21,6 +21,43 @@ export default (View) => {
       this.update();
     }
 
+    addItem = (title) => {
+      this.setState( {
+        loading: true,
+        error: false
+      });
+      this.props.addItem(title)
+        .then(() => {
+          this.update();
+        }).catch(() => {
+        this.setState({
+          error: true,
+          loading: false
+        });
+      });
+    }
+
+    removeItem = (id) => {
+      this.setState( {
+        loading: true,
+        error: false
+      });
+      this.props.removeItem(id)
+        .then(() => {
+          this.update();
+        }).catch(() => {
+        this.setState({
+          error: true,
+          loading: false
+        });
+      });
+    }
+
+
+    editItem = () => {
+
+    }
+
     update() {
       this.setState( {
         loading: true,
@@ -54,7 +91,10 @@ export default (View) => {
         return <ErrorIndicator />;
       }
 
-      return <View {...this.props} data={data} update = {this.update} />;
+      return <View {...this.props}
+                   data={data}
+                   addItem={this.addItem}
+                   removeItem={this.removeItem}/>;
     }
   };
 };

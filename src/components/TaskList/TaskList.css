@@ -1,5 +1,6 @@
-.task-list {
+.task-list{
     width: 100%;
+
 }
 .task-list-item {
     display: flex;
@@ -15,5 +16,9 @@
 
 .task-list-item:hover {
     background-color: #90caf9;
+}
+
+.remove-btn {
+    border-radius: 30%;
 }
 
