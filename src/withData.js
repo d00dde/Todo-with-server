@@ -54,8 +54,20 @@ export default (View) => {
     }
 
 
-    editItem = () => {
-
+    editItem = (id, title) => {
+      this.setState( {
+        loading: true,
+        error: false
+      });
+      this.props.editItem(id, title)
+        .then(() => {
+          this.update();
+        }).catch(() => {
+        this.setState({
+          error: true,
+          loading: false
+        });
+      });
     }
 
     update() {
@@ -94,7 +106,8 @@ export default (View) => {
       return <View {...this.props}
                    data={data}
                    addItem={this.addItem}
-                   removeItem={this.removeItem}/>;
+                   removeItem={this.removeItem}
+                   editItem={this.editItem}/>;
     }
   };
 };

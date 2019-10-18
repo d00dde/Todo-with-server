@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import './App.css';
 import 'materialize-css/dist/css/materialize.min.css';
 
+
 import Content from '../Content/Content';
+import Server from "../../dummyserver";
 
 export default class extends Component {
 
@@ -10,10 +12,14 @@ export default class extends Component {
     logged: false,
     admin: false
   }
+  constructor () {
+    super ();
+    this.server = new Server;
+  }
+
 
   logIn = (name) => {
-    /*this.server.name = name;
-    fetch*/
+
   }
 
   logOut = () => {
@@ -28,16 +34,18 @@ export default class extends Component {
             <a href="#" className="brand-logo center">Amazing TODO-List</a>
             <button onClick={this.login}
                     className='login-btn waves-effect waves-light btn right'>
-              {this.state.logged ? 'Log Out': 'Log In'}
+              {this.state.logged ? 'Log Out': 'Register'}
             </button>
           </div>
         </nav>
         <div className='main-container'>
           <div className='left-panel'>Amazing Left Panel</div>
-          <Content logged={this.state.logged}
-                   admin={this.state.admin}/>
+          <Content logged = {this.state.logged}
+                   admin = {this.state.admin}
+                   server = {this.server}/>
           <div className='right-panel'>Amazing Right Panel</div>
         </div>
+
         <footer className="page-footer blue darken-2">
           <div className="container">Amazing Footer</div>
           <div className="footer-copyright">

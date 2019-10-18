@@ -5,6 +5,7 @@
 .task-list-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 25px;
     border: 1px solid black;
     margin: 5px;
@@ -19,6 +20,25 @@
 }
 
 .remove-btn {
-    border-radius: 30%;
+    margin: 5px;
+}
+
+.add-form {
+    display: flex;
+    margin: 15px;
+
+}
+
+.add-form #add-input {
+    border-bottom: 1px solid black;
+}
+
+#add-input:focus, #edit-input:focus {
+    border-bottom: 1px solid #1976d2;
+    box-shadow: 0 1px 0 0 #1976d2;
+}
+
+.add-button {
+    margin: 0 10px;
 }
 

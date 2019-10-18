@@ -1,25 +1,24 @@
 import React, {Component} from 'react';
 import './Content.css';
-import TaskList from '../TaskList/TaskList'
-import Server from "../../dummyserver";
-
-
+import TaskList from '../TaskList/TaskList';
+import LoginScreen from '../LoginScreen/LoginScreen'
 
 export default class extends Component {
 
-  constructor () {
-    super ();
-    this.server = new Server;
-  }
-
-
   render () {
+    let content;
+    if(this.props.logged) {
+      content = <TaskList  getData = {this.props.server.getTasks}
+                           addItem = {this.props.server.addTask}
+                           removeItem = {this.props.server.removeTask}
+                           editItem = {this.props.server.editTask} />;
+      }
+    else {
+      content = <LoginScreen />
+    }
     return (
       <div className='content'>
-        <TaskList  getData = {this.server.getTasks}
-                   addItem = {this.server.addTask}
-                   removeItem = {this.server.removeTask}
-                   editItem = {this.server.editTask} />
+        {content}
       </div>
 
     )
