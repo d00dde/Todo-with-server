@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './TaskList.css'
-import withData from '../../withData';
+import {withData} from '../HOC';
 import M from 'materialize-css/dist/js/materialize';
 
 class TaskList extends Component {
@@ -12,15 +12,17 @@ class TaskList extends Component {
   }
 
   render() {
-    const list = this.props.data.map(({id, title}) => {
+    const texts = this.props.texts.taskList;
+    const list = this.props.data.length === 0 ? <div className='tasks-hint'>{texts.tasksHint}</div>
+      :this.props.data.map(({id, title}) => {
       return (<div key={id} className='task-list-item'>{title}
         <div>
           <button className='cyan btn waves-effect waves-light modal-trigger'
                   href="#edit-modal"
-                  onClick={() => this.editHandler(id, title)}>Edit
+                  onClick={() => this.editHandler(id, title)}>{texts.btnEdit}
           </button>
           <button className='red btn waves-effect waves-light remove-btn'
-                  onClick={() => this.props.removeItem(id)}>Delete
+                  onClick={() => this.props.removeItem(id)}>{texts.btnDelete}
           </button>
         </div>
 
@@ -29,11 +31,12 @@ class TaskList extends Component {
 
     return (
       <div className="task-list">
+        <div className='tasks-header'>{texts.tasksHeaderBefore}{this.props.name}{texts.tasksHeaderAfter}</div>
         {list}
         <div className='add-form'>
-          <input type="text" id='add-input' placeholder='Add item'/>
+          <input type="text" id='add-input' placeholder={texts.addPlaceholder}/>
           <button onClick={this.addItem}
-                  className='add-button waves-effect waves-light btn blue darken-2'>Add
+                  className='add-button waves-effect waves-light btn blue darken-2'>{texts.btnAdd}
           </button>
         </div>
 
@@ -43,8 +46,8 @@ class TaskList extends Component {
             <input type="text" id='edit-input' defaultValue = {this.editTitle} />
           </div>
           <div className="modal-footer">
-            <a  className="modal-close waves-effect waves-green btn-flat" onClick={this.editItem}>Edit</a>
-            <a  className="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            <a  className="modal-close waves-effect waves-green btn-flat" onClick={this.editItem}>{texts.btnEdit}</a>
+            <a  className="modal-close waves-effect waves-green btn-flat">{texts.btnCancel}</a>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Spinner from './components/Spinner/Spinner';
-import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator';
+import Spinner from '../Spinner/Spinner';
+import ErrorIndicator from '../ErrorIndicator/ErrorIndicator';
 
 export default (View) => {
   return class extends Component {
@@ -100,7 +100,7 @@ export default (View) => {
       }
 
       if (error) {
-        return <ErrorIndicator />;
+        return <ErrorIndicator texts={this.props.texts}/>;
       }
 
       return <View {...this.props}

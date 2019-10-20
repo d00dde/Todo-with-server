@@ -42,3 +42,15 @@
     margin: 0 10px;
 }
 
+.tasks-header {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.tasks-hint {
+    text-align: center;
+    font-size: 25px;
+    color: #1976d2;
+}
+

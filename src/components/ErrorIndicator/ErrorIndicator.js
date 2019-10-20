@@ -1,10 +1,10 @@
 import React from 'react';
 import './ErrorIndicator.css';
 
-export default () => {
+export default (props) => {
   return (
     <div className="error-indicator">
-      Something is terribly wrong.
+      {props.texts.errorIndicator.message}
     </div>
   )
 
