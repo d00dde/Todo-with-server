@@ -21,12 +21,12 @@ export default (View) => {
       this.update();
     }
 
-    addItem = (title) => {
+    addItem = (...args) => {
       this.setState( {
         loading: true,
         error: false
       });
-      this.props.addItem(title)
+      this.props.addItem(...args)
         .then(() => {
           this.update();
         }).catch(() => {
@@ -37,12 +37,12 @@ export default (View) => {
       });
     }
 
-    removeItem = (id) => {
+    removeItem = (...args) => {
       this.setState( {
         loading: true,
         error: false
       });
-      this.props.removeItem(id)
+      this.props.removeItem(...args)
         .then(() => {
           this.update();
         }).catch(() => {
@@ -54,12 +54,12 @@ export default (View) => {
     }
 
 
-    editItem = (id, title) => {
+    editItem = (...args) => {
       this.setState( {
         loading: true,
         error: false
       });
-      this.props.editItem(id, title)
+      this.props.editItem(...args)
         .then(() => {
           this.update();
         }).catch(() => {
@@ -76,7 +76,7 @@ export default (View) => {
         error: false
       });
 
-      this.props.getData()
+      this.props.getData(this.props.name)
         .then((data) => {
           this.setState({
             data,

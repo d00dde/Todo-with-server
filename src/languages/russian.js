@@ -7,7 +7,8 @@ export default {
     rightPanel: 'Невероятная правая панель',
     footer: 'Невероятный футер',
     copyright: '© 2019 Все права защищены',
-    successfulRegister: 'Регистрация успешна'
+    successfulRegister: 'Регистрация успешна',
+    LogOutErrormessage: 'Не удалось выйти из аккаунта.'
   },
   errorIndicator: {
     message: 'Что-то сломалось.'
@@ -20,7 +21,7 @@ export default {
     tasksHeaderBefore: 'Задачи ',
     tasksHeaderAfter: 'а:',
     addPlaceholder: 'Введите описание задачи',
-    tasksHint: 'Создайте новую задачу, чтобы начать.'
+    noTasksHint: 'Создайте новую задачу, чтобы начать.'
   },
   loginScreen: {
     title: 'Введите ваше имя и пароль',
@@ -50,5 +51,10 @@ export default {
       nameEmpty: 'Поле имени не должно быть пустым.',
       passEmpty: 'Поле пароля не должно быть пустым.'
     }
+  },
+  usersList: {
+    noUsersHint: 'В базе данных нет пользователей.',
+    btnDelete: 'Удалить',
+    usersHeader: 'Пользователи:'
   }
 }

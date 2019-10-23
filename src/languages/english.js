@@ -7,7 +7,8 @@ export default {
     rightPanel: 'Amazing Right Panel',
     footer: 'Amazing Footer',
     copyright: '© 2019 Copyright Text',
-    successfulRegister: 'Registration successful'
+    successfulRegister: 'Registration successful',
+    LogOutErrormessage: 'LogOut not successful'
   },
   errorIndicator: {
     message: 'Something is terribly wrong.'
@@ -20,7 +21,7 @@ export default {
     tasksHeaderBefore: '',
     tasksHeaderAfter: '\'s tasks:',
     addPlaceholder: 'Enter task title',
-    tasksHint: 'Create a new task.'
+    noTasksHint: 'Create a new task.'
   },
   loginScreen: {
     title: 'Enter your name and password',
@@ -44,11 +45,16 @@ export default {
     btnRegister: 'Register',
     messages: {
       nameIsFree: 'This name is free.',
-      nameNotAFree: 'This name is busy.',
+      nameNotAFree: 'This name is occupied.',
       unknownError: 'Wooops, something terrible wrong.',
       noEqualPasswords: 'Passwords not a equal.',
       nameEmpty: 'Name field is empty!',
       passEmpty: 'Password field is empty!',
     }
+  },
+  usersList: {
+    noUsersHint: 'No users in database.',
+    btnDelete: 'Delete',
+    usersHeader: 'Users:'
   }
 }

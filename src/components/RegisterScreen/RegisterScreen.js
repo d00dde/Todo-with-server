@@ -76,7 +76,14 @@ import Spinner from '../Spinner/Spinner';
   }
 
   checkName = () => {
-    this.props.request(document.querySelector('#name').value, '');
+    const name = document.querySelector('#name').value;
+    if(name === ''){
+      this.setState({
+        msg: this.props.texts.registerScreen.messages.nameEmpty
+      });
+      return;
+    }
+    this.props.request(name, '');
   }
 
   nameHandler = (e) => {

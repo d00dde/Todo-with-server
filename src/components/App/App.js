@@ -6,7 +6,8 @@ import russian from '../../languages/russian';
 
 
 import Content from '../Content/Content';
-import Server from "../../dummyserver";
+import ErrorIndicator from './../ErrorIndicator/ErrorIndicator'
+import Server from "../../server/dummyserver";
 
 export default class extends Component {
 
@@ -15,7 +16,8 @@ export default class extends Component {
     isLogIn: false,
     isAdmin: false,
     name: '',
-    texts: english
+    texts: english,
+    error: false,
   }
 
   constructor () {
@@ -25,6 +27,8 @@ export default class extends Component {
 
   render () {
     const texts = this.state.texts.app;
+    if(this.state.error)
+      return <ErrorIndicator message = {texts.LogOutErrormessage} />
     return (
       <div className="app">
         <nav>
@@ -80,16 +84,30 @@ export default class extends Component {
   }
 
   logOut = () => {
-    let register = false;
-    if (!this.state.isLogIn)
-      register = true;
-    this.setState({
-      register: register,
-      isLogIn: false,
-      isAdmin: false,
-      name: ''
-    })
+    if(this.state.isLogIn) {
+      this.server.logOut()
+        .then(() => {
+          let register = false;
+          if (!this.state.isLogIn)
+            register = true;
+          this.setState({
+            register: register,
+            isLogIn: false,
+            isAdmin: false,
+            name: ''
+          });
+        }).catch(() => {
+        this.setState({
+          error: true
+        });
+      });
+    } else {
+      this.setState ({
+        register: true,
+      });
+    }
   }
+
   registerSuccess = () => {
     this.setState ({
       register: false,

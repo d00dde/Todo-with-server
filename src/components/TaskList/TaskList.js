@@ -13,7 +13,7 @@ class TaskList extends Component {
 
   render() {
     const texts = this.props.texts.taskList;
-    const list = this.props.data.length === 0 ? <div className='tasks-hint'>{texts.tasksHint}</div>
+    const list = this.props.data.length === 0 ? <div className='no-tasks-hint'>{texts.noTasksHint}</div>
       :this.props.data.map(({id, title}) => {
       return (<div key={id} className='task-list-item'>{title}
         <div>
@@ -22,7 +22,7 @@ class TaskList extends Component {
                   onClick={() => this.editHandler(id, title)}>{texts.btnEdit}
           </button>
           <button className='red btn waves-effect waves-light remove-btn'
-                  onClick={() => this.props.removeItem(id)}>{texts.btnDelete}
+                  onClick={() => this.props.removeItem(this.props.name, id)}>{texts.btnDelete}
           </button>
         </div>
 
@@ -43,7 +43,7 @@ class TaskList extends Component {
         <div id="edit-modal" className="modal">
           <div className="modal-content">
             <h4>Edit task</h4>
-            <input type="text" id='edit-input' defaultValue = {this.editTitle} />
+            <input type="text" id='edit-input' />
           </div>
           <div className="modal-footer">
             <a  className="modal-close waves-effect waves-green btn-flat" onClick={this.editItem}>{texts.btnEdit}</a>
@@ -62,13 +62,15 @@ class TaskList extends Component {
 
   addItem = () => {
     const value = document.querySelector('#add-input').value;
+    console.log(value);
     if(value.trim() !== '')
-      this.props.addItem(value);
+      this.props.addItem(this.props.name, value);
   }
+
   editItem = () => {
     const value = document.querySelector('#edit-input').value;
     if(value.trim() !== '')
-      this.props.editItem(this.editId, value);
+      this.props.editItem(this.props.name, this.editId, value);
   }
 }
 

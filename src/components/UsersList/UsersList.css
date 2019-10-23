@@ -1,8 +1,8 @@
-.task-list{
+.users-list{
     width: 100%;
 
 }
-.task-list-item {
+.users-list-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,42 +15,32 @@
     box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 }
 
-.task-list-item:hover {
+.users-list-item:hover {
     background-color: #90caf9;
+}
+
+.users-list .name-wrapper {
+    display: flex;
+    align-items: center;
 }
 
 .remove-btn {
     margin: 5px;
 }
 
-.add-form {
-    display: flex;
-    margin: 15px;
-
-}
-
-.add-form #add-input {
-    border-bottom: 1px solid black;
-}
-
-#add-input:focus, #edit-input:focus {
-    border-bottom: 1px solid #1976d2;
-    box-shadow: 0 1px 0 0 #1976d2;
-}
-
-.add-button {
-    margin: 0 10px;
-}
-
-.tasks-header {
+.users-header {
     text-align: center;
     font-size: 36px;
     margin-bottom: 15px;
 }
 
-.no-tasks-hint {
+.no-users-hint {
     text-align: center;
     font-size: 25px;
     color: #1976d2;
 }
 
+.users-list .users-list-item .crown-img {
+    width: 40px;
+    height: 40px;
+}

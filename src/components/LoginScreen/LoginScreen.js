@@ -20,14 +20,14 @@ class LogScreen extends Component {
       this.props.logged(response.isLogIn, response.isAdmin, this.state.name);
       return;
     }
-    if(response.error === 'password'){
+    if(response.reason === 'password'){
       this.setState ({
         password: '',
         msg: messages.passError
       });
       return;
     }
-    if(response.error === 'name') {
+    if(response.reason === 'name') {
       this.setState ({
         name: '',
         password: '',

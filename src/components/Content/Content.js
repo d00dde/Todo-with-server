@@ -1,31 +1,34 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './Content.css';
 import TaskList from '../TaskList/TaskList';
 import LoginScreen from '../LoginScreen/LoginScreen';
 import RegisterScreen from '../RegisterScreen/RegisterScreen';
+import UsersList from '../UsersList/UsersList';
 
-export default class extends Component {
-
-  render () {
+export default (props) => {
     let content;
-    if(this.props.isLogIn) {
-      content = <TaskList  getData = {this.props.server.getTasks}
-                           addItem = {this.props.server.addTask}
-                           removeItem = {this.props.server.removeTask}
-                           editItem = {this.props.server.editTask}
-                           name={this.props.name}
-                           texts={this.props.texts} />;
+    if(props.isLogIn && !props.isAdmin) {
+      content = <TaskList  getData = {props.server.getTasks}
+                           addItem = {props.server.addTask}
+                           removeItem = {props.server.removeTask}
+                           editItem = {props.server.editTask}
+                           name={props.name}
+                           texts={props.texts} />;
       }
-    else if(this.props.register) {
-      content = <RegisterScreen request = {this.props.server.addUser}
-                                texts={this.props.texts}
-                                registerSuccess ={this.props.registerSuccess}/>
+    else if(props.register) {
+      content = <RegisterScreen request = {props.server.addUser}
+                                texts={props.texts}
+                                registerSuccess ={props.registerSuccess}/>
+    }
+    else if(props.isLogIn && props.isAdmin) {
+      content = <UsersList texts={props.texts}
+                           getData = {props.server.getUsers}/>
     }
     else {
-      content = <LoginScreen request = {this.props.server.logIn}
-                             logged = {this.props.logged}
-                             name={this.props.name}
-                             texts={this.props.texts}/>
+      content = <LoginScreen request = {props.server.logIn}
+                             logged = {props.logged}
+                             name={props.name}
+                             texts={props.texts}/>
     }
     return (
       <div className='content'>
@@ -33,5 +36,4 @@ export default class extends Component {
       </div>
 
     )
-  }
 }
