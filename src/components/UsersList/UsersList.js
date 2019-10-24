@@ -11,7 +11,7 @@ const UsersList = (props) => {
         <div key={name} className='users-list-item'>
           <div className='name-wrapper'>
             <span>{name}</span>
-            {isAdmin && <img src={crown} className='crown-img'/> }
+            {isAdmin && <img src={crown} className='crown-img' alt='crown'/> }
           </div>
           <div>
             <button className='blue darken-2 btn waves-effect waves-light remove-btn'

@@ -40,16 +40,19 @@ export default class {
     switch(type){
       case 'login':
         if(this._checkRegistration(params)) {
-          if (!this._checkActiveSession(params))
-            if(!this._isBrutForce(params))
+          if (!this._checkActiveSession(params)) {
+            if (!this._isBrutForce(params)) {
               return this._addSession(params);
+            }
             return this._denial('brutForce');
+          }
           return this._denial('session');
         }
         return this._denial(this._wrongPassOrName(params));
       case 'logOut':
         if(this._checkActiveSession(params))
           return this._endSession(params);
+        return this._error('no access');
       case 'getUsers':
         if(this._checkActiveSession(params) && this._isAdminSession(params))
           return this._getUsers();
@@ -59,7 +62,7 @@ export default class {
           return this._addUser(params);
         return this._error('registration failed');
       case 'removeUser':
-        if(this._isAdminSession(params) || this._nameIsFree(params))
+        if(this._isAdminSession(params))
           return this._removeUser(params);
         return this._error('no access');
       case 'checkUser':
@@ -111,8 +114,8 @@ export default class {
     return true;
   }
 
-  _nameIsFree = ({userName}) => {
-    if(this._users.find((user) => user.name === userName))
+  _nameIsFree = ({name}) => {
+    if(this._users.find((user) => user.name === name))
       return false;
     return true;
   }
@@ -177,10 +180,10 @@ export default class {
     });
   }
 
-  _checkUser = ({name}) => {
+  _checkUser = ({userName}) => {
     return new Promise( (resolve) => {
       setTimeout(() => {
-        if(this._users.find((user) => user.name === name))
+        if(this._users.find((user) => user.name === userName))
           return resolve({isFree: false, register: false});
         return resolve({isFree: true, register: false});
       }, this._serverDelay);

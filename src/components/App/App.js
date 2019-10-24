@@ -20,9 +20,9 @@ export default class extends Component {
     error: false,
   }
 
-  constructor () {
-    super ();
-    this.server = new Server;
+  constructor (props) {
+    super (props);
+    this.server = new Server();
   }
 
   render () {

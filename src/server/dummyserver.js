@@ -4,7 +4,7 @@ export default class {
 
   constructor () {
 
-    this.server = new Server;
+    this.server = new Server();
   }
   name = '';
   token = '';
