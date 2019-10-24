@@ -12,7 +12,7 @@ import Server from "../../server/dummyserver";
 export default class extends Component {
 
   state = {
-    register: false,
+    screen: 'login',
     isLogIn: false,
     isAdmin: false,
     name: '',
@@ -52,13 +52,14 @@ export default class extends Component {
         </nav>
         <div className='main-container'>
           <div className='left-panel'>{texts.leftPanel}</div>
-          <Content isLogIn = {this.state.isLogIn}
-                   isAdmin = {this.state.isAdmin}
-                   register={this.state.register}
+          <Content screen = {this.state.screen}
                    registerSuccess={this.registerSuccess}
+                   logged = {this.logged}
+                   showUserTasks = {this.showUserTasks}
+                   backToUsersList = {this.backToUsersList}
+                   isAdmin = {this.state.isAdmin}
                    name={this.state.name}
                    server = {this.server}
-                   logged = {this.logged}
                    texts={this.state.texts}/>
           <div className='right-panel'>{texts.rightPanel}</div>
         </div>
@@ -75,23 +76,12 @@ export default class extends Component {
     );
   }
 
-  logged = (isLogIn, isAdmin, name) => {
-    this.setState({
-      isLogIn,
-      isAdmin,
-      name
-    })
-  }
-
   logOut = () => {
     if(this.state.isLogIn) {
       this.server.logOut()
         .then(() => {
-          let register = false;
-          if (!this.state.isLogIn)
-            register = true;
           this.setState({
-            register: register,
+            screen: 'login',
             isLogIn: false,
             isAdmin: false,
             name: ''
@@ -103,16 +93,44 @@ export default class extends Component {
       });
     } else {
       this.setState ({
-        register: true,
+        screen: 'register',
       });
     }
   }
 
+  logged = (isLogIn, isAdmin, name) => {
+    this.setState({
+      screen: isAdmin ? 'usersList': 'taskList',
+      isLogIn,
+      isAdmin,
+      name
+    })
+  }
+
   registerSuccess = () => {
     this.setState ({
-      register: false,
+      screen: 'login'
     });
     this.createPopup(this.state.texts.app.successfulRegister);
+  }
+
+  showUserTasks = (name) => {
+    this.setState ({
+      name,
+      screen: 'taskList'
+    })
+  }
+
+  backToUsersList = () => {
+    if(this.state.isAdmin)
+      this.setState ({
+        name: '',
+        screen: 'usersList'
+      })
+    else
+      this.setState ({
+        error: true,
+      })
   }
 
   changeLanguage = (checked) => {
@@ -126,6 +144,7 @@ export default class extends Component {
       });
     }
   }
+
   createPopup = (title) => {
    const popup = document.createElement('div');
    popup.innerText = title;
@@ -136,6 +155,5 @@ export default class extends Component {
      popup.parentNode.removeChild(popup);
    }, 3000)
   }
-
 }
 

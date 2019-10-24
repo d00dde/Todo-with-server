@@ -15,12 +15,12 @@ export default class {
 
   addUser = async (name, password) => {
     if(password === '')
-      return await this.server.request('checkUser', {name});
+      return await this.server.request('checkUser', {userName : name});
     return await this.server.request('addUser', {name, password});
   }
 
-  removeUser = async (name) => {
-
+  removeUser = async (userName) => {
+    return await this.server.request('removeUser', {name: this.name, token: this.token, userName});
   }
 
   editUser = async (name, password) => {
@@ -44,19 +44,19 @@ export default class {
     return;
   }
 
-  getTasks = async (name) => {
-    return await this.server.request('getTasks', {name, token: this.token});
+  getTasks = async (userName) => {
+    return await this.server.request('getTasks', {name: this.name, token: this.token, userName});
   }
 
-  addTask = async (name, title) => {
-    return await this.server.request('addTask', {name, title, token: this.token});
+  addTask = async (userName, title) => {
+    return await this.server.request('addTask', {name: this.name, title, token: this.token, userName});
   }
 
-  removeTask = async (name, id) => {
-    return await this.server.request('removeTask', {name, id, token: this.token});
+  removeTask = async (userName, id) => {
+    return await this.server.request('removeTask', {name: this.name, id, token: this.token, userName});
   }
 
-  editTask = async (name, id, title) => {
-    return await this.server.request('editTask', {name, id, title, token: this.token});
+  editTask = async (userName, id, title) => {
+    return await this.server.request('editTask', {name: this.name, id, title, token: this.token, userName});
   }
 }

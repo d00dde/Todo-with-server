@@ -11,11 +11,16 @@ const UsersList = (props) => {
         <div key={name} className='users-list-item'>
           <div className='name-wrapper'>
             <span>{name}</span>
-            {isAdmin ? <img src={crown} className='crown-img'/> : null}
+            {isAdmin && <img src={crown} className='crown-img'/> }
           </div>
-          <button className='red btn waves-effect waves-light remove-btn'
-                  onClick={() => props.removeItem(name)}>{texts.btnDelete}
-          </button>
+          <div>
+            <button className='blue darken-2 btn waves-effect waves-light remove-btn'
+                    onClick={() => props.showUserTasks(name)}>{texts.btnTasks}
+            </button>
+            <button className='red btn waves-effect waves-light remove-btn'
+                    onClick={() => props.removeItem(name)}>{texts.btnDelete}
+            </button>
+          </div>
         </div>);
     });
 

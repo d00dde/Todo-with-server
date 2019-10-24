@@ -20,24 +20,39 @@ class LogScreen extends Component {
       this.props.logged(response.isLogIn, response.isAdmin, this.state.name);
       return;
     }
-    if(response.reason === 'password'){
-      this.setState ({
-        password: '',
-        msg: messages.passError
-      });
-      return;
+    switch(response.reason) {
+      case 'password':
+        this.setState ({
+          password: '',
+          msg: messages.passError
+        });
+        return;
+      case 'name':
+        this.setState ({
+          name: '',
+          password: '',
+          msg: messages.nameError
+        });
+        return;
+      case 'brutForce':
+        this.setState ({
+          name: '',
+          password: '',
+          msg: messages.brutForce
+        });
+        return;
+      case 'session':
+        this.setState ({
+          name: '',
+          password: '',
+          msg: messages.detectedActiveSession
+        });
+        return;
+      default:
+        this.setState ({
+          msg: messages.unknownError
+        });
     }
-    if(response.reason === 'name') {
-      this.setState ({
-        name: '',
-        password: '',
-        msg: messages.nameError
-      });
-      return;
-    }
-    this.setState ({
-      msg: messages.unknownError
-    })
   }
 
   render () {

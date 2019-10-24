@@ -18,6 +18,7 @@ export default {
     btnDelete: 'Удалить',
     btnAdd: 'Добавить',
     btnCancel: 'Выйти',
+    btnBack: 'Назад',
     tasksHeaderBefore: 'Задачи ',
     tasksHeaderAfter: 'а:',
     addPlaceholder: 'Введите описание задачи',
@@ -33,6 +34,8 @@ export default {
       passEmpty: 'Поле пароля не должно быть пустым.',
       nameError: 'Нет пользователя с таким именем.',
       passError: 'Пароль не верен.',
+      detectedActiveSession: 'Этот пользователь уже находиться в системе.',
+      brutForce: 'Слишком много попыток входа с неправильным паролем.',
       unknownError: 'Что-то пошло не так.'
     }
   },
@@ -55,6 +58,7 @@ export default {
   usersList: {
     noUsersHint: 'В базе данных нет пользователей.',
     btnDelete: 'Удалить',
+    btnTasks: 'Задачи',
     usersHeader: 'Пользователи:'
   }
 }

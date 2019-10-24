@@ -11,35 +11,39 @@ export default class {
         {id: 3, title: 'Refactor TODO-list'}
       ],
       maxId: 3,
+      brutCount: 0
     },
     {
       id: 1,
-      name: 'littel',
-      password: '8361035',
+      name: 'noadmin',
+      password: 'noadmin',
       isAdmin: false,
       tasks: [
         {id: 0, title: 'Drink coffee'},
         {id: 1, title: 'Feed the cat'},
         {id: 2, title: 'Drink beer'},
-        {id: 3, title: 'Kill all \'polovtsev\''}
       ],
-      maxId: 3,
+      maxId: 4,
+      brutCount: 0
     }
   ];
   _sessions = [];
   _maxId = 1;
   _serverDelay = 500;
+  _BRUTLIMIT = 3;
 
   //Проверка типа запроса, реализация логики проверок и вызова соответствующих ответов сервера
 
   request = (type, params) => {
-    console.log('type: ' , type);
-    console.log('params: ' , params);
+    //console.log('type: ' , type);
+    //console.log('params: ' , params);
     switch(type){
       case 'login':
         if(this._checkRegistration(params)) {
           if (!this._checkActiveSession(params))
-            return this._addSession(params);
+            if(!this._isBrutForce(params))
+              return this._addSession(params);
+            return this._denial('brutForce');
           return this._denial('session');
         }
         return this._denial(this._wrongPassOrName(params));
@@ -54,6 +58,10 @@ export default class {
         if(this._noEmptyPassAndName(params) && this._nameIsFree(params))
           return this._addUser(params);
         return this._error('registration failed');
+      case 'removeUser':
+        if(this._isAdminSession(params) || this._nameIsFree(params))
+          return this._removeUser(params);
+        return this._error('no access');
       case 'checkUser':
         return this._checkUser(params);
       case 'getTasks':
@@ -72,6 +80,8 @@ export default class {
         if(this._checkActiveSession(params) || this._isAdminSession(params))
           return this._editTask(params);
         return this._error('no access');
+      default:
+        return this._error('invalid request');
     }
   }
 
@@ -93,8 +103,6 @@ export default class {
         return true;
     }
     return false;
-
-
   }
 
   _noEmptyPassAndName = ({name, password}) => {
@@ -103,8 +111,8 @@ export default class {
     return true;
   }
 
-  _nameIsFree = ({name}) => {
-    if(this._users.find((user) => user.name === name))
+  _nameIsFree = ({userName}) => {
+    if(this._users.find((user) => user.name === userName))
       return false;
     return true;
   }
@@ -120,12 +128,18 @@ export default class {
 
   _wrongPassOrName = ({name, password}) => {
     const user = this._users.find((user) => user.name === name);
-    if(!user)
+    if (!user)
       return 'name';
-    if(user.password !== password)
+    if (user.password !== password) {
+      if (++user.brutCount > this._BRUTLIMIT)
+        return 'brutForce';
       return 'password';
-  }
+    }
 
+  }
+  _isBrutForce = ({name}) => {
+    return this._users.find((user) => user.name === name).brutCount > this._BRUTLIMIT;
+  }
 
   // ------- Функции, иммитирующие ответ от сервера. --------------
   // Создают Promise и резольвят их (функция error реджектит) через serverDelay миллисекунд.
@@ -156,6 +170,7 @@ export default class {
             isAdmin: false,
             tasks: [],
             maxId: 0,
+            brutCount: 0
           });
           return resolve({isFree: true, register: true});
       }, this._serverDelay);
@@ -172,11 +187,23 @@ export default class {
     });
   }
 
+  _removeUser = ({userName}) => {
+    return new Promise( (resolve) => {
+      setTimeout(() => {
+        this._sessions = this._sessions.filter((session) => session.name !== userName);
+        this._users = this._users.filter((user) => user.name !== userName);
+        return resolve({isRemove: true});
+      }, this._serverDelay);
+    });
+  }
+
   _addSession = ({name}) => {
     return new Promise( (resolve) => {
       setTimeout(() => {
         const token = this._createToken();
-        const isAdmin = this._users.find((user) => user.name === name).isAdmin;
+        const user  = this._users.find((user) => user.name === name);
+        const isAdmin = user.isAdmin;
+        user.brutCount = 0;
         this._sessions.push({name, token, isAdmin});
         return resolve({isLogIn: true, isAdmin, token, reason: ''});
       }, this._serverDelay);
@@ -194,19 +221,19 @@ export default class {
 
   //Функции для работы с задачами.
 
-  _getTasks = ({name}) => {
+  _getTasks = ({userName}) => {
     return new Promise( (resolve) => {
       setTimeout(() => {
-        const user = this._users.find((user) => user.name === name);
+        const user = this._users.find((user) => user.name === userName);
         const tasks = user ? user.tasks : [];
         resolve (tasks);
       }, this._serverDelay);
     });
   }
 
-  _addTask = ({name, title}) => {
+  _addTask = ({userName, title}) => {
     return new Promise( (resolve) => {
-      const user = this._users.find((user) => user.name === name);
+      const user = this._users.find((user) => user.name === userName);
       user.tasks.push({id: ++user.maxId, title: title});
       setTimeout(() => {
         resolve ({taskAdded: true});
@@ -214,20 +241,20 @@ export default class {
     });
   }
 
-  _editTask = ({name, id, title}) => {
+  _editTask = ({userName, id, title}) => {
     return new Promise( (resolve) => {
       setTimeout(() => {
-        const user = this._users.find((user) => user.name === name);
+        const user = this._users.find((user) => user.name === userName);
         user.tasks.find((task) => task.id === id).title = title;
         resolve ({taskEdited: true});
       }, this._serverDelay);
     });
   }
 
-  _removeTask = ({name, id}) => {
+  _removeTask = ({userName, id}) => {
     return new Promise( (resolve) => {
       setTimeout(() => {
-        const user = this._users.find((user) => user.name === name);
+        const user = this._users.find((user) => user.name === userName);
         user.tasks = user.tasks.filter((task) => task.id !== id);
         resolve ({taskRemoved: true});
       }, this._serverDelay);

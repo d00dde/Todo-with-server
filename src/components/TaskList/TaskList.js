@@ -31,6 +31,11 @@ class TaskList extends Component {
 
     return (
       <div className="task-list">
+        {this.props.isAdmin &&  <button className='cyan btn waves-effect waves-light modal-trigger'
+                                        style={{ margin: '15px'}}
+                                       href="#edit-modal"
+                                       onClick={this.props.backToUsersList}>{texts.btnBack}
+                                </button>}
         <div className='tasks-header'>{texts.tasksHeaderBefore}{this.props.name}{texts.tasksHeaderAfter}</div>
         {list}
         <div className='add-form'>

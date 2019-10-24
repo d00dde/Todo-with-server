@@ -18,6 +18,7 @@ export default {
     btnDelete: 'Delete',
     btnAdd: 'Add',
     btnCancel: 'Cancel',
+    btnBack: 'Back',
     tasksHeaderBefore: '',
     tasksHeaderAfter: '\'s tasks:',
     addPlaceholder: 'Enter task title',
@@ -33,6 +34,8 @@ export default {
       passEmpty: 'Password field is empty!',
       nameError: 'Name incorrect',
       passError: 'Password incorrect',
+      detectedActiveSession: 'This user now in system.',
+      brutForce: 'Too many try log in with incorrect password.',
       unknownError: 'Wooops, something terrible wrong.'
     }
   },
@@ -55,6 +58,7 @@ export default {
   usersList: {
     noUsersHint: 'No users in database.',
     btnDelete: 'Delete',
+    btnTasks: 'Tasks',
     usersHeader: 'Users:'
   }
 }
