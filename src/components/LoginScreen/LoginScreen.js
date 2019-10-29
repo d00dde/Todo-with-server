@@ -11,6 +11,15 @@ class LogScreen extends Component {
     msg: ''
   }
 
+  constructor (props) {
+    super(props);
+    this.inputRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus();
+  }
+
   componentDidUpdate(prevProps) {
     if(prevProps.response === this.props.response)
       return;
@@ -62,19 +71,22 @@ class LogScreen extends Component {
     return (
       <div className='login-screen'>
         <h3 className='login-title'>{texts.title}</h3>
-        <input type="text"
-               placeholder={texts.namePlaceholder}
-               id='name'
-               value={this.state.name}
-               onChange={this.nameHandler}/>
-        <input type="password"
-               placeholder={texts.passwordPlaceholder}
-               id='password'
-               value={this.state.password}
-               onChange={this.passHandler}/>
-        <button className='submit-btn waves-effect waves-light btn blue darken-2'
-                onClick={this.submitHandler}>{texts.btnLogIn}
-        </button>
+        <form onSubmit={this.submitHandler}>
+          <input type="text"
+                 ref={this.inputRef}
+                 placeholder={texts.namePlaceholder}
+                 id='name'
+                 value={this.state.name}
+                 onChange={this.nameHandler}/>
+          <input type="password"
+                 placeholder={texts.passwordPlaceholder}
+                 id='password'
+                 value={this.state.password}
+                 onChange={this.passHandler}/>
+          <button className='submit-btn waves-effect waves-light btn blue darken-2'
+                  type='submit'>{texts.btnLogIn}
+          </button>
+        </form>
         <div className='message'>{this.state.msg}</div>
       </div>
     )
@@ -92,7 +104,8 @@ class LogScreen extends Component {
     });
   }
 
-  submitHandler = () => {
+  submitHandler = (e) => {
+    e.preventDefault();
     const messages = this.props.texts.loginScreen.messages;
     if(this.state.name === '') {
       this.setState ({

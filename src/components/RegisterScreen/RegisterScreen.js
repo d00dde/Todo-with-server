@@ -13,6 +13,15 @@ import Spinner from '../Spinner/Spinner';
 
   }
 
+  constructor(props){
+    super(props);
+    this.inputRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus();
+  }
+
    componentDidUpdate(prevProps) {
      if(prevProps.response === this.props.response)
        return;
@@ -47,28 +56,32 @@ import Spinner from '../Spinner/Spinner';
       <div>
         <div className='register-screen'>
           <h3 className='register-title'>{texts.title}</h3>
-          <div className='name-field'>
-            <input type="text"
-                   placeholder={texts.namePlaceholder}
-                   id='name'
-                   onChange={this.nameHandler}
-                   value={this.state.name}/>
-            <button className='btn-check waves-effect waves-light btn blue darken-2'
-                    onClick={this.checkName}>{texts.btnCheck}</button>
-          </div>
-          <input type="password"
-                 placeholder={texts.passwordPlaceholder}
-                 id='password'
-                 onChange={this.passHandler}
-                 value={this.state.password}/>
-          <input type="password"
-                 placeholder={texts.confirmPlaceholder}
-                 id='confirm-password'
-                 onChange={this.confirmPassHandler}
-                 value={this.state.confirmPassword}/>
-          <button className='submit-btn waves-effect waves-light btn blue darken-2'
-                  onClick={this.registerHandler}>{texts.btnRegister}
-          </button>
+          <form onSubmit={this.registerHandler}>
+            <div className='name-field'>
+              <input type="text"
+                     placeholder={texts.namePlaceholder}
+                     id='name'
+                     ref={this.inputRef}
+                     onChange={this.nameHandler}
+                     value={this.state.name}/>
+              <button className='btn-check waves-effect waves-light btn blue darken-2'
+                      type='button'
+                      onClick={this.checkName}>{texts.btnCheck}</button>
+            </div>
+            <input type="password"
+                   placeholder={texts.passwordPlaceholder}
+                   id='password'
+                   onChange={this.passHandler}
+                   value={this.state.password}/>
+            <input type="password"
+                   placeholder={texts.confirmPlaceholder}
+                   id='confirm-password'
+                   onChange={this.confirmPassHandler}
+                   value={this.state.confirmPassword}/>
+            <button className='submit-btn waves-effect waves-light btn blue darken-2'
+                    type='submit'>{texts.btnRegister}
+            </button>
+          </form>
           <div className='message'>{msg}</div>
         </div>
       </div>
@@ -76,6 +89,7 @@ import Spinner from '../Spinner/Spinner';
   }
 
   checkName = () => {
+    console.log('check')
     const name = document.querySelector('#name').value;
     if(name === ''){
       this.setState({
@@ -112,7 +126,9 @@ import Spinner from '../Spinner/Spinner';
    }
 
 
-  registerHandler = () => {
+  registerHandler = (e) => {
+    e.preventDefault();
+    console.log(this.state);
     const messages = this.props.texts.registerScreen.messages;
     if(this.state.name === ''){
       this.setState({
